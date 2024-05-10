@@ -1,0 +1,31 @@
+{
+    "messages": [
+        "Hãy nhập \"!help\" để xem toàn bộ lệnh của bot.",
+        "Server lag? Hãy nhập \"!tps\" để xem TPS từ chính tablist của server.",
+        "Bạn có thể nhập \"!dupe <tên kit>\" để nhân bản kit cho riêng mình.",
+        "Prefix của bot: \"!\"",
+        "Nhập \"!fact\" để biết được một sự thật thú vị",
+        "Đừng cố gắng giúp người chơi khác, vì có thể chính họ sẽ giết bạn.",
+        "Tham gia NDForum tại đây: https://dsc.gg/ndforum",
+        "NDForum sẽ giúp bạn làm bot, tham gia ở đây: https://dsc.gg/ndforum"
+    ],
+    "facts": [
+        "Hầu hết các quái vật spawn từ lồng spawn (spawner) đều bị tắt AI.",
+        "Velocity (AntiKnockback) là hack tốt nhất để tránh chết oan từ trên cao (NoFall không hoạt động).",
+        "Bạn có thể đào thạch anh nether hoặc câu cá để kiếm kinh nghiệm (mặc dù sản lượng không nhiều).",
+        "Dân làng là nguồn tài nguyên (gần như vô tận).",
+        "Động vật có thể qua Nether. Chúng cung cấp tốc độ di chuyển cao thông qua EntitySpeed.",
+        "Số lượng mob server spawn ra cực kì ít, nên đừng cố gắng làm farm mob (trừ farm raid, chúng vẫn hoạt động tốt:>).",
+        "Hãy cố gắng kiếm cho mình một rương Ender, chúng là thứ quan trọng bậc nhất đối với bạn.",
+        "Hầu hết bot trong server được lập trình từ JavaScript. Bạn có thể tìm hiểu thêm trên Google.",
+        "Một que quỷ lửa có thể nung được 12 vật phẩm, xô lava là 64 vật phẩm, khối tảo là 20 vật phẩm",
+        "Thanh gậy End có thể được chế tạo từ 1 que quỷ lửa và 1 quả chorus bung vỏ (real)."
+    ],
+    "colorCodes": [
+        ">"
+    ],
+    "blacklist": [
+        "Sim_Bot",
+        "SimPham"
+    ]
+}
