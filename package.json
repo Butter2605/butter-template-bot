@@ -16,6 +16,7 @@
     "mineflayer": "^4.20.1",
     "mineflayer-death-event": "^1.0.0",
     "mineflayer-tps": "^1.0.1",
+    "mongoose": "^8.3.4",
     "ms": "^2.1.3"
   }
 }

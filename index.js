@@ -1,18 +1,16 @@
-//require('events').EventEmitter.setMaxListeners(100)
 require('dotenv').config();
 const Discord = require('discord.js');
 const mineflayer = require('mineflayer');
 const tps = require('mineflayer-tps')(mineflayer);
 const fs = require('fs')
 const env = process.env
-const { messages, colorCodes, blacklist } = require('./config.json')
-const ms = require('ms')
-const { codeBlock } = require('@discordjs/builders')
-//const deathEvent = require('mineflayer-death-event')
+const { codeBlock } = require('@discordjs/builders');
 
 const client = new Discord.Client({
     intents: 34315,
 });
+
+module.exports = { client }
 
 const config = {
     ip: env.mc_ip,
@@ -38,6 +36,7 @@ function run(client) {
 
     bot.loadPlugin(tps)
     bot.commands = [];
+    bot.discordClient = client;
 
     fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
     .forEach(file => {
@@ -47,82 +46,11 @@ function run(client) {
         }
     })
 
-    bot.on('end', (r) => {
-        if (r.trim() == 'Under maintenance.') {
-            setTimeout(() => run(client), 60 * 1000);
-        } else {
-            setTimeout(() => run(client), 60 * 1000);
-        }
-    });
-
-    bot.on('error', () => {
-        setTimeout(() => run(client), 60 * 1000);
-    });
-
-    bot.on('windowOpen', (window) => {
-        window.requiresConfirmation = false;
-
-        if (window.slots.length >= 62) {
-            bot.simpleClick.leftMouse(13)
-        }
-    });
-
-    bot.on('login', () => {
-        setTimeout(() => { bot.activateItem(false) }, ms('12s'));
-    });
-
-    bot.on('messagestr', async(msg) => {
-        console.log(msg)
-        if (msg.trim() === '') return;
-        if (msg.trim() === 'Hãy nhập lệnh : /login < mật khẩu của bạn> để vào server')
-        {
-            bot.chat(`/login ${config.password}`)
-        } else if (msg.trim() === 'Hãy đăng ký tài khoản bằng lệnh : /register <mật khẩu bạn muốn đặt> <nhập lại mật khẩu')
-        {
-            bot.chat(`/register ${config.password} ${config.password}`);
-        }
-    });
-
-    bot.on('login', () => {
-        setInterval(() => {
-            let randomChat = messages[Math.floor(Math.random() * messages.length)];
-            bot.chat(`> ${randomChat}`)
-        }, 2 * 60 * 1000 + (Math.floor(Math.random() * 400)))
-    })
-
-    bot.on('chat', async(user, msg) => {
-        let discordRegex = /(https:\/\/)(discord gg)\//g;
-        let edited = msg;
-        if (user in blacklist) return;
-        if (discordRegex.test(msg)) edited = msg.replace(discordRegex, 'https://discord.gg/');
-        const channel = await client.channels.cache.get(config.id);
-        if (!channel) return;
-
-        const embed = new Discord.MessageEmbed()
-            .setColor('#f836ff')
-        	.setTitle(user)
-            .setDescription(`**\`${edited}\`**`);
-        
-        await channel.send({ embeds: [embed] });
-        
-
-    })
-
-    bot.on('chat', async(user, chat) => {
-        const prefix = config.prefix;
-        let msg = chat.toString();
-        if (msg.trim() == bot.username) return bot.chat(`Prefix: ${prefix} | Dùng ${prefix}help để biết thêm thông tin về các lệnh`)
-        if (
-            !msg.trim().startsWith(prefix) ||
-            !msg.trim().startsWith(`> ${prefix}`) ||
-            !msg.trim().startsWith(`>${prefix}`)
-        ) return;
-        const args = msg.slice(prefix.length).trim().split(/ +/g);
-        const cmd = args.shift().toLowerCase();
-        const command = await bot.commands.find(c => c.name == cmd);
-        if (command) {
-            if (command.admin && user.trim() !== 'NDTung') return
-            command.run(bot, user, msg, args);
+    fs.readdirSync('./events').filter(file => file.endsWith('.js'))
+    .forEach(file => {
+        const event = require(`./events/${file}`);
+        if (event.name) {
+            bot.on(event.name, (...args) => event.run(bot, ...args));
         }
     })
 
