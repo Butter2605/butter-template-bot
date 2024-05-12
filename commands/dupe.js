@@ -6,11 +6,10 @@ module.exports = {
     /**
      * 
      * @param {mineflayer.Bot} bot 
-     * @param {String} user 
-     * @param {String} msg 
+     * @param {String} user
      * @param {String[]} args 
      */
-    async run(bot, user, msg, args) {
+    async run(bot, user, args) {
         if (!args[0]) return bot.chat('Bạn phải nhập tên kit cần dupe')
         const kitName = args.join(' ');
 

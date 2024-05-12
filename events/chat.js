@@ -2,17 +2,27 @@ const mineflayer = require('mineflayer');
 
 module.exports = {
     name: 'chat',
+    /**
+     * 
+     * @param {mineflayer.Bot} bot 
+     * @param {String} user 
+     * @param {String} chat 
+     * @returns 
+     */
     async run(bot, user, chat) {
         const prefix = '!';
         let msg = chat.toString();
-        if (msg.trim() == bot.username) return bot.chat(`Prefix: ${prefix} | Dùng ${prefix}help để biết thêm thông tin về các lệnh`)
-        if (!msg.trim().startsWith(prefix)) return;
-        const args = msg.slice(prefix.length).trim().split(/ +/g);
-        const cmd = args.shift().toLowerCase();
-        const command = await bot.commands.find(c => c.name == cmd);
-        if (command) {
-            if (command.admin && user.trim() !== 'NDTung') return
-            command.run(bot, user, msg, args);
-        }
+        let args = msg.split(/ +/g);
+        if (args[0] === '>') args = args.slice(1);
+        if (!args[0]) return
+        if (!args[0].startsWith(prefix)) return
+        args[0] = args[0].slice(prefix.length)
+        const cmd = await bot.commands.find(cmd => cmd.name === args[0]);
+        if (!cmd) return
+        if (user === bot.player.username)
+            await require('node:timers/promises').setTimeout(1000).catch(e =>{});
+        delete args[0];
+
+        cmd.run(bot, user, args);
     }
 }

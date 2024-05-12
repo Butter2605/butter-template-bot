@@ -7,11 +7,10 @@ module.exports = {
     /**
      * 
      * @param {mineflayer.Bot} bot 
-     * @param {String} user 
-     * @param {String} msg 
+     * @param {String} user
      * @param {String[]} args 
      */
-    async run(bot, user, msg, args) {
+    async run(bot, user, args) {
         if (!args[0]) {
             const files = await bot.commands.filter(cmd => cmd.name && (!cmd.admin || cmd.admin == false)).map(c => c.name);
             bot.chat('Hiện tại có các lệnh: ' + files.join(', '));
